@@ -11,19 +11,22 @@ LDFLAGS = -shared
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
-all: build/libclogger.so build/test
+all: libclogger.so
+
+test: test.out
+	sh -c "PATH=. LD_LIBRARY_PATH=. $<"
 
 # link
-build/libclogger.so: $(OBJ)
+libclogger.so: $(OBJ)
 	$(LD) -o $@ $(OBJ) $(LDFLAGS)
 
 # compile
 obj/%.o: src/%.c
 	$(CC) -c $< -o $@ $(CFLAGS)
 
-build/test: test/test.c build/libclogger.so
+test.out: test.c libclogger.so
 	$(CC) $^ -o $@ $(CFLAGS)
 
 clean:
-	rm $(OBJ)
+	rm -rf $(OBJ) libclogger.so test.out
 
