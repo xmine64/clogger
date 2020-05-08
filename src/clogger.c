@@ -8,7 +8,7 @@ int _clog_measure_size(const char *format, va_list ap) {
 	return size;
 }
 
-void clog(const char *format, ...) {
+void clog_logf(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
 	_linked_messages msgs = _clog_alloc(_clog_measure_size(format, ap));

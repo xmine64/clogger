@@ -23,7 +23,7 @@ enum CLoggerMessageType {
 };
 
 // Logs a message
-CLOGGER_API void clog(const char *format, ...);
+CLOGGER_API void clog_logf(const char *format, ...);
 
 // Prints the log
 CLOGGER_API void clog_print();

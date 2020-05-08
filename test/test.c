@@ -5,12 +5,12 @@
 #include <clogger.h>
 
 int main() {
-	clog("Hello World!");
+	clog_logf("Hello World!");
 
 	for (int i = 1000; i < 1010; i++)
-		clog("%s, i=%i", "Testing Messages", i);
+		clog_logf("%s, i=%i", "Testing Messages", i);
 
-	clog("The End!");
+	clog_logf("The End!");
 
 	assert(clog_any());
 
