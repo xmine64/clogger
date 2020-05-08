@@ -18,16 +18,14 @@ void clog_logf(const char *format, ...) {
 }
 
 void clog_print() {
-	_clog_fprint(stdout, _clog_get());
+	_clog_fprint(stdout);
 }
 
 void clog_free() {
-	if (_clog_get() == NULL)
-		return;
-	_clog_free(_clog_get());
+	_clog_free();
 }
 
 bool clog_any() {
-	return _clog_get() != NULL;
+	return _clog_any();
 }
 

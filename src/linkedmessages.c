@@ -3,8 +3,8 @@
 _linked_messages _log = NULL;
 _linked_messages _last = NULL;
 
-_linked_messages _clog_get() {
-	return _log;
+bool _clog_any() {
+	return _log != NULL;
 }
 
 _linked_messages _clog_alloc(int size) {
@@ -23,18 +23,30 @@ void _clog_append(_linked_messages message) {
 	_last = _last->next;
 }
 
-void _clog_fprint(FILE *fp, _linked_messages messages) {
+void __clog_fprint(FILE *fp, _linked_messages messages) {
 	if (messages == NULL)
 		return;
 	fprintf(fp, "%s\r\n", messages->message);
-	_clog_fprint(fp, messages->next);
+	__clog_fprint(fp, messages->next);
 }
 
-void _clog_free(_linked_messages messages) {
+void _clog_fprint(FILE *fp) {
+	__clog_fprint(fp, _log);
+}
+
+void __clog_free(_linked_messages messages) {
 	if (messages == NULL)
 		return;
-	_clog_free(messages->next);
+	__clog_free(messages->next);
 	free(messages->message);
 	free(messages);
+}
+
+void _clog_free() {
+	if (_log == NULL)
+		return;
+	__clog_free(_log);
+	_log = NULL;
+	_last = NULL;
 }
 
