@@ -14,7 +14,7 @@ int main() {
 
 	assert(clog_any());
 
-	clog_print();
+	clog_fprint(stderr);
 
 	clog_free();
 

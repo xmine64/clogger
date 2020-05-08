@@ -25,8 +25,11 @@ enum CLoggerMessageType {
 // Logs a message
 CLOGGER_API void clog_logf(const char *format, ...);
 
-// Prints the log
-CLOGGER_API void clog_print();
+// Prints the log to console
+CLOGGER_API void clog_print_console();
+
+// Prints the log to a file
+CLOGGER_API void clog_fprint(FILE *fp);
 
 // Frees resources used by the logger
 CLOGGER_API void clog_free();

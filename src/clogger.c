@@ -17,8 +17,12 @@ void clog_logf(const char *format, ...) {
 	_clog_append(msgs);
 }
 
-void clog_print() {
-	_clog_fprint(stdout);
+void clog_fprint(FILE *fp) {
+	_clog_fprint(fp);
+}
+
+void clog_print_console() {
+	clog_fprint(stdout);
 }
 
 void clog_free() {
