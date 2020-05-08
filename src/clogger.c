@@ -8,7 +8,8 @@ int _clog_measure_size(const char *format, va_list ap) {
 	// backup va_list, we still need it later
 	va_list ap_bak;
 	va_copy(ap_bak, ap);
-	// this won't print anything, but tells the length of formatted string
+	// this won't print anything,
+	// but returns length of the formatted string
 	int size = vsnprintf(NULL, 0, format, ap_bak);
 	va_end(ap_bak);
 	return size;
@@ -32,19 +33,22 @@ void clog_logf(const char *format, ...) {
 	va_end(ap);
 }
 
-void clog_fprint(FILE *fp) {
-	_clog_fprint(fp);
-}
+// moved to linkedmessages.c
+//void clog_fprint(FILE *fp) {
+//	_clog_fprint(fp);
+//}
 
 void clog_print_console() {
 	clog_fprint(stdout);
 }
 
-void clog_free() {
-	_clog_free();
-}
+// moved to linkedmessages.c
+//void clog_free() {
+//	_clog_free();
+//}
 
-bool clog_any() {
-	return _clog_any();
-}
+// move to linkedmessages.c
+//bool clog_any() {
+//	return _clog_any();
+//}
 

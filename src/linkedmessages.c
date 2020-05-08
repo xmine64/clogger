@@ -7,10 +7,6 @@ _linked_messages _log = NULL;
 // pointer to last node, used for caching and imporve performance
 _linked_messages _last = NULL;
 
-bool _clog_any() {
-	return _log != NULL;
-}
-
 _linked_messages _clog_alloc(int message_size) {
 	_linked_messages result =
 		malloc(sizeof(struct _linked_message_entry));
@@ -41,7 +37,7 @@ void _clog_append(_linked_messages message) {
 }
 
 // internal function to print log and its children recursively
-void __clog_fprint(FILE *fp, _linked_messages messages) {
+void _clog_fprint(FILE *fp, _linked_messages messages) {
 	if (messages == NULL)
 		return;
 	// format message to be printed
@@ -61,31 +57,38 @@ void __clog_fprint(FILE *fp, _linked_messages messages) {
 	fprintf(fp, "%s\r\n", messages->message);
 #endif
 	// recursively, print children
-	__clog_fprint(fp, messages->next);
-}
-
-// print log from first node to last child
-void _clog_fprint(FILE *fp) {
-	__clog_fprint(fp, _log);
+	_clog_fprint(fp, messages->next);
 }
 
 // release resources of messages recursively
-void __clog_free(_linked_messages messages) {
+void _clog_free(_linked_messages messages) {
 	if (messages == NULL)
 		return;
 	// free child before parent
-	__clog_free(messages->next);
+	_clog_free(messages->next);
 
 	free(messages->message);
 	free(messages);
 }
 
-void _clog_free() {
+// these are public functions, but needed to declare them here
+// because they need to access internals directly
+
+bool clog_any() {
+	return _log != NULL;
+}
+
+void clog_free() {
 	if (_log == NULL)
 		return;
-	__clog_free(_log);
-	// _log and _last values are not available anymore
+	_clog_free(_log);
+	// _log and _last are not available anymore
 	_log = NULL;
 	_last = NULL;
+}
+
+// print log from first node to last child
+void clog_fprint(FILE *fp) {
+	_clog_fprint(fp, _log);
 }
 

@@ -26,13 +26,7 @@ struct _linked_message_entry {
 
 // internal functions used in clogger.c file
 
-bool _clog_any();
-
 _linked_messages _clog_alloc(int message_size);
 
 void _clog_append(_linked_messages entry);
-
-void _clog_fprint(FILE *fp);
-
-void _clog_free();
 
