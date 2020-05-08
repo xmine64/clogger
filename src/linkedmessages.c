@@ -1,6 +1,7 @@
 #include <clogger_internal.h>
 
 _linked_messages _log = NULL;
+_linked_messages _last = NULL;
 
 _linked_messages _clog_get() {
 	return _log;
@@ -15,12 +16,11 @@ _linked_messages _clog_alloc(int size) {
 void _clog_append(_linked_messages message) {
 	if (_log == NULL) {
 		_log = message;
+		_last = _log;
 		return;
 	}
-	_linked_messages parent = _log;
-	while (parent->next != NULL)
-		parent = parent->next;
-	parent->next = message;
+	_last->next = message;
+	_last = _last->next;
 }
 
 void _clog_fprint(FILE *fp, _linked_messages messages) {
