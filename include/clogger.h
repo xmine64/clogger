@@ -4,6 +4,7 @@
 
 #ifndef CLOGGER_API
 
+// add extern keyword for dynamic library
 #ifdef CLOGGER_DYN
 #ifdef __WIN32
 #define CLOGGER_API extern __declspec(dllexport)
@@ -14,27 +15,32 @@
 #define CLOGGER_API
 #endif
 
+// stdbool is required for clog_any()
 #include <stdbool.h>
 
+// TODO: will used to add priority of messages in later versions
 enum CLoggerMessageType {
 	ERROR,
 	WARNING,
 	INFO
 };
 
-// Logs a message
+// format message then append to linked list message log
 CLOGGER_API void clog_logf(const char *format, ...);
 
-// Prints the log to console
+// print all logged messages to console
 CLOGGER_API void clog_print_console();
 
-// Prints the log to a file
+// print all logged messages to file fp
 CLOGGER_API void clog_fprint(FILE *fp);
 
-// Frees resources used by the logger
+// release resources used by the linked list
+// will clear all message log
+// you will be able to log message again
 CLOGGER_API void clog_free();
 
-// Returns true if log is not empty
+// returns true if there's any message
+// `return _log != NULL`
 CLOGGER_API bool clog_any();
 
 #endif

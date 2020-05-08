@@ -6,12 +6,14 @@
 #include<stdbool.h>
 #include<stdarg.h>
 
+// if CLOGGER_DATETIME is defined, then add timestamp to log
 #ifdef CLOGGER_DATETIME
 #include <time.h>
 #endif
 
 #include<clogger.h>
 
+// messages are saved in linked list entries
 typedef struct _linked_message_entry* _linked_messages;
 
 struct _linked_message_entry {
@@ -22,9 +24,15 @@ struct _linked_message_entry {
 	_linked_messages next;
 };
 
+// internal functions used in clogger.c file
+
 bool _clog_any();
-_linked_messages _clog_alloc(int size);
-void _clog_append(_linked_messages item);
+
+_linked_messages _clog_alloc(int message_size);
+
+void _clog_append(_linked_messages entry);
+
 void _clog_fprint(FILE *fp);
+
 void _clog_free();
 
