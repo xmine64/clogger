@@ -6,12 +6,19 @@
 #include<stdbool.h>
 #include<stdarg.h>
 
+#ifdef CLOGGER_DATETIME
+#include <time.h>
+#endif
+
 #include<clogger.h>
 
 typedef struct _linked_message_entry* _linked_messages;
 
 struct _linked_message_entry {
 	char *message;
+#ifdef CLOGGER_DATETIME
+	time_t datetime;
+#endif
 	_linked_messages next;
 };
 

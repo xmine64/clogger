@@ -3,7 +3,7 @@ LD = gcc
 AR = ar
 DB = lldb
 
-CFLAGS = -I include/ 
+CFLAGS = -I include/ -DCLOGGER_DATETIME
 LDFLAGS = 
 
 SRC = $(wildcard src/*.c)

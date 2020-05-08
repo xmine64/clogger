@@ -8,13 +8,18 @@ int _clog_measure_size(const char *format, va_list ap) {
 	return size;
 }
 
+void _clog_vlogf(const char *format, va_list ap) {
+	_linked_messages msgs =
+		_clog_alloc(_clog_measure_size(format, ap));
+	vsprintf(msgs->message, format, ap);
+	_clog_append(msgs);
+}
+
 void clog_logf(const char *format, ...) {
 	va_list ap;
 	va_start(ap, format);
-	_linked_messages msgs = _clog_alloc(_clog_measure_size(format, ap));
-	vsprintf(msgs->message, format, ap);
+	_clog_vlogf(format, ap);
 	va_end(ap);
-	_clog_append(msgs);
 }
 
 void clog_fprint(FILE *fp) {

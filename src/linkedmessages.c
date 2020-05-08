@@ -10,6 +10,9 @@ bool _clog_any() {
 _linked_messages _clog_alloc(int size) {
 	_linked_messages result = malloc(sizeof(struct _linked_message_entry));
 	result->message = malloc(size);
+#ifdef CLOGGER_DATETIME
+	result->datetime = time(NULL);
+#endif
 	return result;
 }
 
@@ -26,7 +29,15 @@ void _clog_append(_linked_messages message) {
 void __clog_fprint(FILE *fp, _linked_messages messages) {
 	if (messages == NULL)
 		return;
+#ifdef CLOGGER_DATETIME
+	char *datetime = ctime(&messages->datetime);
+	datetime[24] = '\0';
+	fprintf(fp, "%s: %s\r\n",
+			datetime,
+			messages->message);
+#else
 	fprintf(fp, "%s\r\n", messages->message);
+#endif
 	__clog_fprint(fp, messages->next);
 }
 
