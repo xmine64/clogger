@@ -4,11 +4,27 @@ It uses linked lists to save error messages, and can be used as static or dynami
 
 # Usage
 Include `clogger.h` file then link the library with your program.
-Use `clog_add()` to log a message. it supports printf-style formatting.
+Use `clog_logf()` to log a message. it supports printf-style formatting.
 use `clog_print()` to print log to stdout.
-and at the end, `use clog_free() to clean up used resources and clear messages log.
+and at the end, use `clog_free()` to clean up used resources and clear messages log.
 
-Note: if you want to use clogger as a dynamic library, you should add `#define CLOGGER_DYN` at top of `clogger.h`
+# Compile
+as a dynamic library:
+```
+$ make libclogger.so
+```
+or
+```
+$ gcc src/*.c -o libclogger.so -I include/ -DCLOGGER_DYN -shared
+```
+
+
+as a static library:
+```
+$ make libclogger.a
+```
+or simply copy source files to your program.
+
 
 # Copying
 this is a free program provided to you through MIT License. you are free to use it in anyway.
