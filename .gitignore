@@ -1,3 +1,4 @@
 obj/
 libclogger.so
+libclogger.a
 test.out
