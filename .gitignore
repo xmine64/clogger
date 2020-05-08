@@ -1,4 +1,7 @@
 obj/
 libclogger.so
 libclogger.a
-test.out
+test-s
+test-a
+test-debug
+test-dyn
