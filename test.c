@@ -12,13 +12,11 @@ int main() {
 
 	clog_logf("The End!");
 
-	assert(clog_any());
-
 	assert(clog_count() == 12);
 
 	clog_fprint(stderr);
 
 	clog_free();
 
-	assert(!clog_any());
+	assert(clog_count() == 0);
 }

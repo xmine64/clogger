@@ -6,6 +6,8 @@
 _linked_messages _log = NULL;
 // pointer to last node, used for caching and imporve performance
 _linked_messages _last = NULL;
+// keep track of messages count
+unsigned long _log_size = 0;
 
 _linked_messages _clog_alloc(int message_size) {
 	_linked_messages result =
@@ -20,6 +22,8 @@ _linked_messages _clog_alloc(int message_size) {
 }
 
 void _clog_append(_linked_messages message) {
+	_log_size++;
+
 	// first entry is null,
 	// then there's no parent to append to it
 	// so it's the first node
@@ -58,10 +62,6 @@ void _clog_foreach(_clog_foreach_handler handler, void *argument) {
 // these are public functions, but needed to declare them here
 // because they need to access internals directly
 
-bool clog_any() {
-	return _log != NULL;
-}
-
 void clog_free() {
 	if (_log == NULL)
 		return;
@@ -69,5 +69,11 @@ void clog_free() {
 	// _log and _last are not available anymore
 	_log = NULL;
 	_last = NULL;
+
+	_log_size = 0;
+}
+
+unsigned long clog_count() {
+	return _log_size;
 }
 

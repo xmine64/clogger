@@ -3,7 +3,6 @@
 
 #include<stdlib.h>
 #include<stdio.h>
-#include<stdbool.h>
 #include<stdarg.h>
 
 // if CLOGGER_DATETIME is defined, then add timestamp to log

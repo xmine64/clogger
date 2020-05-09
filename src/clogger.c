@@ -52,14 +52,3 @@ void clog_print_console() {
 	clog_fprint(stdout);
 }
 
-void _clog_counter(_linked_messages entry,
-		int *count) {
-	(*count)++;
-}
-
-unsigned long clog_count() {
-	int count = 0;
-	_clog_foreach(_clog_counter, &count);
-	return count;
-}
-

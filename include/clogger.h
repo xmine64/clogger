@@ -15,16 +15,6 @@
 #define CLOGGER_API
 #endif
 
-// stdbool is required for clog_any()
-#include <stdbool.h>
-
-// TODO: will used to add priority of messages in later versions
-enum CLoggerMessageType {
-	ERROR,
-	WARNING,
-	INFO
-};
-
 // format message then append to linked list message log
 CLOGGER_API void clog_logf(const char *format, ...);
 
@@ -39,11 +29,7 @@ CLOGGER_API void clog_fprint(FILE *fp);
 // you will be able to log message again
 CLOGGER_API void clog_free();
 
-// returns true if there's any message
-// `return _log != NULL`
-CLOGGER_API bool clog_any();
-
-// enumerate nodes
+// get count of messages in log (fast version)
 CLOGGER_API unsigned long clog_count();
 
 #endif
