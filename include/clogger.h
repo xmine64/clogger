@@ -15,11 +15,12 @@
 #define CLOGGER_API
 #endif
 
-// format message then append to linked list message log
-CLOGGER_API void clog_logf(const char *format, ...);
+CLOGGER_API void clog_err(const char *format, ...);
+CLOGGER_API void clog_warn(const char *format, ...);
+CLOGGER_API void clog_info(const char *format, ...);
 
 // print all logged messages to console
-CLOGGER_API void clog_print_console();
+CLOGGER_API void clog_print();
 
 // print all logged messages to file fp
 CLOGGER_API void clog_fprint(FILE *fp);

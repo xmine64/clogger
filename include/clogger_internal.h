@@ -15,7 +15,12 @@
 // messages are saved in linked list entries
 typedef struct _linked_message_entry* _linked_messages;
 
+enum _linked_message_entry_kind {
+	ERROR, WARN, INFO
+};
+
 struct _linked_message_entry {
+	enum _linked_message_entry_kind kind;
 	char *message;
 #ifdef CLOGGER_DATETIME
 	time_t datetime;

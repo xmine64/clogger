@@ -8,16 +8,16 @@
 int main() {
 	double usage_clock = (double)clock();
 
-	clog_logf("Hello World!");
+	clog_info("Hello World!");
 
 	for (int i = 1000; i < 1010; i++)
-		clog_logf("%s, i=%i", "Testing Messages", i);
+		clog_err("%s, i=%i", "Testing Error Messages", i);
 
-	clog_logf("The End!");
+	clog_warn("The End!");
 
 	assert(clog_count() == 12);
 
-	clog_fprint(stderr);
+	clog_print();
 
 	clog_free();
 
