@@ -2,9 +2,7 @@
 
 #include <clogger_internal.h>
 
-// internal utility function for clog_logf()
-// calculate the minimum needed memory to store formatted message
-int _clog_measure_size(const char *format, va_list ap) {
+int _clog_calc_min_msg_size(const char *format, va_list ap) {
 	// backup va_list, we still need it later
 	va_list ap_bak;
 	va_copy(ap_bak, ap);
@@ -15,12 +13,10 @@ int _clog_measure_size(const char *format, va_list ap) {
 	return size;
 }
 
-// internal utility function for clog_logf()
-// format and append message to log
 void _clog_vlogf(const char *format, va_list ap) {
 	// allocate memory for storing message log in memory
-	_linked_messages msgs =
-		_clog_alloc(_clog_measure_size(format, ap));
+	_linked_messages msgs = _clog_alloc(
+			_clog_calc_min_msg_size(format, ap));
 	// format and store message in log
 	vsprintf(msgs->message, format, ap);
 	_clog_append(msgs);
@@ -33,22 +29,37 @@ void clog_logf(const char *format, ...) {
 	va_end(ap);
 }
 
-// moved to linkedmessages.c
-//void clog_fprint(FILE *fp) {
-//	_clog_fprint(fp);
-//}
+void __clog_printer(_linked_messages entry,
+		FILE **fp) {
+#ifdef CLOGGER_DATETIME
+	char *datetime_string = ctime(&entry->datetime);
+	// removing \n from end of datetime_string
+	datetime_string[24] = '\0';
+	// date/time: message
+	fprintf(*fp, "%s: %s\r\n",
+			datetime_string,
+			entry->message);
+#else
+	fprintf(*fp, "%s\r\n", entry->message);
+#endif
+}
+
+void clog_fprint(FILE *fp) {
+	_clog_foreach(__clog_printer, &fp);
+}
 
 void clog_print_console() {
 	clog_fprint(stdout);
 }
 
-// moved to linkedmessages.c
-//void clog_free() {
-//	_clog_free();
-//}
+void _clog_counter(_linked_messages entry,
+		int *count) {
+	(*count)++;
+}
 
-// move to linkedmessages.c
-//bool clog_any() {
-//	return _clog_any();
-//}
+unsigned long clog_count() {
+	int count = 0;
+	_clog_foreach(_clog_counter, &count);
+	return count;
+}
 

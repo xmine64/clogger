@@ -36,30 +36,6 @@ void _clog_append(_linked_messages message) {
 	_last = _last->next;
 }
 
-// internal function to print log and its children recursively
-void _clog_fprint(FILE *fp, _linked_messages messages) {
-	if (messages == NULL)
-		return;
-	// format message to be printed
-	// if date/time is enabled, format date/time
-#ifdef CLOGGER_DATETIME
-	// convert date/time to character string
-	char *datetime = ctime(&messages->datetime);
-	// datetime is a static character array with length of 26
-	// [24] is '\n', and [25] is '\0'
-	// by this, we remove the last new line character
-	datetime[24] = '\0';
-	// date/time: message
-	fprintf(fp, "%s: %s\r\n",
-			datetime,
-			messages->message);
-#else
-	fprintf(fp, "%s\r\n", messages->message);
-#endif
-	// recursively, print children
-	_clog_fprint(fp, messages->next);
-}
-
 // release resources of messages recursively
 void _clog_free(_linked_messages messages) {
 	if (messages == NULL)
@@ -69,6 +45,14 @@ void _clog_free(_linked_messages messages) {
 
 	free(messages->message);
 	free(messages);
+}
+
+void _clog_foreach(_clog_foreach_handler handler, void *argument) {
+	_linked_messages entry = _log;
+	while (entry != NULL) {
+		handler(entry, argument);
+		entry = entry->next;
+	}
 }
 
 // these are public functions, but needed to declare them here
@@ -85,10 +69,5 @@ void clog_free() {
 	// _log and _last are not available anymore
 	_log = NULL;
 	_last = NULL;
-}
-
-// print log from first node to last child
-void clog_fprint(FILE *fp) {
-	_clog_fprint(fp, _log);
 }
 

@@ -43,4 +43,7 @@ CLOGGER_API void clog_free();
 // `return _log != NULL`
 CLOGGER_API bool clog_any();
 
+// enumerate nodes
+CLOGGER_API unsigned long clog_count();
+
 #endif

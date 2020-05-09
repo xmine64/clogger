@@ -24,9 +24,14 @@ struct _linked_message_entry {
 	_linked_messages next;
 };
 
+typedef void _clog_foreach_handler(_linked_messages entry,
+		void *argument);
+
 // internal functions used in clogger.c file
 
 _linked_messages _clog_alloc(int message_size);
 
 void _clog_append(_linked_messages entry);
+
+void _clog_foreach(_clog_foreach_handler handler, void *argument);
 
